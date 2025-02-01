@@ -1,4 +1,16 @@
 <div class="row">
+
+    <div wire:loading.class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center">
+        <div wire:loading class="sk-chase sk-primary">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+        </div>
+    </div>
+
     <div class="col-md-12">
         <div class="card mb-6">
             <div class="card-body">
@@ -18,8 +30,7 @@
 
                         <div class="col-md-6">
                             <div class="mb-4">
-                                <label for="formFile"
-                                    class="form-label">Logo</label>
+                                <label for="formFile" class="form-label">Logo</label>
                                 <input class="form-control" type="file" id="formFile" name="logo"
                                     wire:model='logo' accept="image/*">
                                 @error('logo')

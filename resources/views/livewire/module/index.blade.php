@@ -49,21 +49,24 @@
             </div>
         </div>
 
-        <div class="row m-5">
+        @if (Illuminate\Support\Facades\Auth::user()->role == 'superviseur')
+            <div class="row m-5">
 
-            <div class="col-md-12">
-                <div
-                    class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-6 mb-md-0 mt-n6 mt-md-0">
-                    <div class="dt-buttons btn-group flex-wrap">
+                <div class="col-md-12">
+                    <div
+                        class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-6 mb-md-0 mt-n6 mt-md-0">
+                        <div class="dt-buttons btn-group flex-wrap">
 
-                        <button class="btn btn-secondary add-new btn-primary waves-effect waves-light mb-4"
-                            tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas"
-                            data-bs-target="#offcanvasAddUser"><span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                    class="d-none d-sm-inline-block">Ajouter un module</span></span></button>
+                            <button class="btn btn-secondary add-new btn-primary waves-effect waves-light mb-4"
+                                tabindex="0" aria-controls="DataTables_Table_0" type="button"
+                                data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><span><i
+                                        class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                        class="d-none d-sm-inline-block">Ajouter un module</span></span></button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endif
 
         <div class="card-datatable table-responsive">
             <table class="datatables-users table">
@@ -144,6 +147,17 @@
             }
         </script>
 
+    </div>
+
+    <div wire:loading.class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center">
+        <div wire:loading class="sk-chase sk-primary">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+        </div>
     </div>
 
 </div>

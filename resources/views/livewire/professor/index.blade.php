@@ -67,23 +67,26 @@
             </div>
         </div>
 
-        <div class="row m-5">
+        @if (Illuminate\Support\Facades\Auth::user()->role == 'superviseur')
+            <div class="row m-5">
 
-            <div class="col-md-12">
-                <div
-                    class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-6 mb-md-0 mt-n6 mt-md-0">
+                <div class="col-md-12">
+                    <div
+                        class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-6 mb-md-0 mt-n6 mt-md-0">
 
-                    <div class="dt-buttons btn-group flex-wrap">
+                        <div class="dt-buttons btn-group flex-wrap">
 
-                        <button class="btn btn-secondary add-new btn-primary waves-effect waves-light mb-4"
-                            tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas"
-                            data-bs-target="#offcanvasAddUser"><span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
-                                <span class="d-none d-sm-inline-block">Ajouter un étudiant</span></span>
-                        </button>
+                            <button class="btn btn-secondary add-new btn-primary waves-effect waves-light mb-4"
+                                tabindex="0" aria-controls="DataTables_Table_0" type="button"
+                                data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><span><i
+                                        class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
+                                    <span class="d-none d-sm-inline-block">Ajouter un étudiant</span></span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endif
 
         <div class="card-datatable table-responsive">
             <table class="datatables-users table">
@@ -94,7 +97,9 @@
                         <th>Téléphone</th>
                         <th>Module et Filière</th>
                         {{-- <th>Niveau</th> --}}
-                        <th>Actions</th>
+                        @if (Illuminate\Support\Facades\Auth::user()->role == 'superviseur')
+                            <th>Actions</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -141,44 +146,46 @@
                                     @endif
                                 </div>
                             </th>
-                            <td class="" style="">
-                                <div class="d-flex align-items-center">
-                                    <a href="javascript:void(0);"
-                                        onclick="confirmDelete(event, '{{ $professeur->id }}')"
-                                        class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill delete-record">
-                                        <i class="ti ti-trash ti-md"></i>
-                                    </a>
+                            @if (Illuminate\Support\Facades\Auth::user()->role == 'superviseur')
+                                <td class="" style="">
+                                    <div class="d-flex align-items-center">
+                                        <a href="javascript:void(0);"
+                                            onclick="confirmDelete(event, '{{ $professeur->id }}')"
+                                            class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill delete-record">
+                                            <i class="ti ti-trash ti-md"></i>
+                                        </a>
 
-                                    <button wire:click="sendProfesseur('{{ $professeur->id }}')"
-                                        class="btn btn-sm btn-icon edit-record btn-text-secondary rounded-pill waves-effect"
-                                        data-id="11" data-bs-toggle="offcanvas" data-bs-target="#offcanvasStart"
-                                        aria-controls="offcanvasStart">
-                                        <i class="ti ti-edit"></i>
-                                    </button>
+                                        <button wire:click="sendProfesseur('{{ $professeur->id }}')"
+                                            class="btn btn-sm btn-icon edit-record btn-text-secondary rounded-pill waves-effect"
+                                            data-id="11" data-bs-toggle="offcanvas" data-bs-target="#offcanvasStart"
+                                            aria-controls="offcanvasStart">
+                                            <i class="ti ti-edit"></i>
+                                        </button>
 
-                                    <a href="javascript:;"
-                                        class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill dropdown-toggle hide-arrow"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="ti ti-dots-vertical ti-md"></i>
-                                    </a>
+                                        <a href="javascript:;"
+                                            class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill dropdown-toggle hide-arrow"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="ti ti-dots-vertical ti-md"></i>
+                                        </a>
 
-                                    <div class="dropdown-menu dropdown-menu-end m-0" style="">
+                                        <div class="dropdown-menu dropdown-menu-end m-0" style="">
 
-                                        @if ($professeur->role == 'coordinateur')
-                                            <button wire:click="addAsNotCoordinateur('{{ $professeur->id }}')"
-                                                class="btn btn-label-primary">
-                                                Enlever comme coordinateur
-                                            </button>
-                                        @else
-                                            <button wire:click="addAsCoordinateur('{{ $professeur->id }}')"
-                                                class="btn btn-label-primary">
-                                                Nommer comme coordinateur
-                                            </button>
-                                        @endif
+                                            @if ($professeur->role == 'coordinateur')
+                                                <button wire:click="addAsNotCoordinateur('{{ $professeur->id }}')"
+                                                    class="btn btn-label-primary">
+                                                    Enlever comme coordinateur
+                                                </button>
+                                            @else
+                                                <button wire:click="addAsCoordinateur('{{ $professeur->id }}')"
+                                                    class="btn btn-label-primary">
+                                                    Nommer comme coordinateur
+                                                </button>
+                                            @endif
 
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
                 </tbody>
@@ -222,6 +229,17 @@
             }
         </script>
         <!-- Offcanvas to add new user -->
+    </div>
+
+    <div wire:loading.class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center">
+        <div wire:loading class="sk-chase sk-primary">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+        </div>
     </div>
 </div>
 

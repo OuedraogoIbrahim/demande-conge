@@ -13,7 +13,7 @@
 
 <!-- Page Scripts -->
 @section('page-script')
-    @vite(['resources/assets/js/forms-selects.js', 'resources/assets/js/forms-typeahead.js', 'resources/assets/js/forms-pickers.js'])
+    @vite(['resources/assets/js/forms-selects.js', 'resources/assets/js/forms-typeahead.js', 'resources/assets/js/forms-pickers.js', 'resources/assets/vendor/libs/spinkit/spinkit.scss'])
 @endsection
 
 @section('content')

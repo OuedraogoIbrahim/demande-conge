@@ -76,6 +76,11 @@
                                 <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
                             </div>
                         </div>
+                        @error('password')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
                         <button class="btn btn-primary d-grid w-100 mb-6">
                             Définir le nouveau mot de passe
                         </button>

@@ -22,7 +22,7 @@
 
                 <div class="form-check form-check-secondary mb-5 ms-2">
                     <input class="form-check-input select-all" type="checkbox" id="selectAll" data-value="all" checked>
-                    <label class="form-check-label" for="selectAll">View All</label>
+                    <label class="form-check-label" for="selectAll">Tout</label>
                 </div>
 
                 <div class="app-calendar-events-filter text-heading">

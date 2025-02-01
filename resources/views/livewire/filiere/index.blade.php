@@ -12,21 +12,24 @@
             </div>
         </div>
 
-        <div class="row m-5">
+        @if (Illuminate\Support\Facades\Auth::user()->role == 'superviseur')
+            <div class="row m-5">
 
-            <div class="col-md-12">
-                <div
-                    class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-6 mb-md-0 mt-n6 mt-md-0">
-                    <div class="dt-buttons btn-group flex-wrap">
+                <div class="col-md-12">
+                    <div
+                        class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-6 mb-md-0 mt-n6 mt-md-0">
+                        <div class="dt-buttons btn-group flex-wrap">
 
-                        <button class="btn btn-secondary add-new btn-primary waves-effect waves-light mb-4"
-                            tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas"
-                            data-bs-target="#offcanvasAddUser"><span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                    class="d-none d-sm-inline-block">Ajouter une filière</span></span></button>
+                            <button class="btn btn-secondary add-new btn-primary waves-effect waves-light mb-4"
+                                tabindex="0" aria-controls="DataTables_Table_0" type="button"
+                                data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><span><i
+                                        class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                        class="d-none d-sm-inline-block">Ajouter une filière</span></span></button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endif
 
         <div class="card-datatable table-responsive">
             <table class="datatables-users table">
@@ -34,9 +37,8 @@
                     <tr>
                         <th>Nom</th>
                         <th>Description</th>
-                        @if (Illuminate\Support\Facades\Auth::user()->role == 'superviseur')
-                            <th>Actions</th>
-                        @endif
+                        <th>Actions</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -44,8 +46,9 @@
                         <tr>
                             <th>{{ $filiere->nom }}</th>
                             <th>{{ $filiere->description }}</th>
-                            @if (Illuminate\Support\Facades\Auth::user()->role == 'superviseur')
-                                <td class="" style="">
+
+                            <td class="" style="">
+                                @if (Illuminate\Support\Facades\Auth::user()->role == 'superviseur')
                                     <div class="d-flex align-items-center">
                                         <a href="javascript:void(0);"
                                             onclick="confirmDelete(event, '{{ $filiere->id }}')"
@@ -59,57 +62,70 @@
                                             aria-controls="offcanvasStart">
                                             <i class="ti ti-edit"></i>
                                         </button>
+                                @endif
 
-                                        <a href="javascript:;"
-                                            class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill dropdown-toggle hide-arrow"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="ti ti-dots-vertical ti-md"></i>
-                                        </a>
+                                <a href="javascript:;"
+                                    class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill dropdown-toggle hide-arrow"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="ti ti-dots-vertical ti-md"></i>
+                                </a>
 
-                                        <div class="dropdown-menu dropdown-menu-end m-0" style="">
-                                            <a href="{{ route('modules.index', ['filiere' => $filiere]) }}"
-                                                class="dropdown-item">Liste des modules</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            @endif
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            <div class="my-4">
-                {{ $filieres->links('pagination::bootstrap-5') }}
-            </div>
+                                <div class="dropdown-menu dropdown-menu-end m-0" style="">
+                                    <a href="{{ route('modules.index', ['filiere' => $filiere]) }}"
+                                        class="dropdown-item">Liste des modules
+                                    </a>
+                                </div>
         </div>
+        </td>
 
-        <script>
-            function confirmDelete(event, classeId) {
-                event.preventDefault();
-
-                Swal.fire({
-                    title: 'Êtes-vous sûr ?',
-                    text: 'Vous ne pourrez pas revenir en arrière !',
-                    imageUrl: "{{ asset('assets/lordicon/delete.gif') }}",
-                    // icon: 'warning',
-                    imageWidth: 100, // Largeur du GIF
-                    imageHeight: 100, // Hauteur du GIF
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Oui, supprimer !',
-                    cancelButtonText: 'Annuler'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        Swal.fire({
-                            icon: "success",
-                            title: 'Filière supprimée avec succès.',
-                            showConfirmButton: false,
-                            timer: 1000
-                        });
-                        @this.call('deleteFiliere', classeId); // Appelez la méthode Livewire pour supprimer
-                    }
-                });
-            }
-        </script>
+        </tr>
+        @endforeach
+        </tbody>
+        </table>
+        <div class="my-4">
+            {{ $filieres->links('pagination::bootstrap-5') }}
+        </div>
     </div>
+
+    <script>
+        function confirmDelete(event, classeId) {
+            event.preventDefault();
+
+            Swal.fire({
+                title: 'Êtes-vous sûr ?',
+                text: 'Vous ne pourrez pas revenir en arrière !',
+                imageUrl: "{{ asset('assets/lordicon/delete.gif') }}",
+                // icon: 'warning',
+                imageWidth: 100, // Largeur du GIF
+                imageHeight: 100, // Hauteur du GIF
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Oui, supprimer !',
+                cancelButtonText: 'Annuler'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        icon: "success",
+                        title: 'Filière supprimée avec succès.',
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+                    @this.call('deleteFiliere', classeId); // Appelez la méthode Livewire pour supprimer
+                }
+            });
+        }
+    </script>
+</div>
+
+<div wire:loading.class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center">
+    <div wire:loading class="sk-chase sk-primary">
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+    </div>
+</div>
 </div>

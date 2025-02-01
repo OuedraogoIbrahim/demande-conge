@@ -157,10 +157,14 @@
                             </div>
                         @endif
 
-                        <button class="btn btn-secondary add-new btn-primary waves-effect waves-light mb-4"
-                            tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas"
-                            data-bs-target="#offcanvasAddUser"><span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                    class="d-none d-sm-inline-block">Ajouter un étudiant</span></span></button>
+                        @if (Illuminate\Support\Facades\Auth::user()->role == 'superviseur')
+                            <button class="btn btn-secondary add-new btn-primary waves-effect waves-light mb-4"
+                                tabindex="0" aria-controls="DataTables_Table_0" type="button"
+                                data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><span><i
+                                        class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                        class="d-none d-sm-inline-block">Ajouter un étudiant</span></span>
+                            </button>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -175,7 +179,9 @@
                         <th>Téléphone</th>
                         <th>Filière</th>
                         <th>Niveau</th>
-                        <th>Actions</th>
+                        @if (Illuminate\Support\Facades\Auth::user()->role == 'superviseur')
+                            <th>Actions</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -186,20 +192,23 @@
                             <th>{{ $user->telephone }}</th>
                             <th>{{ $user->student->first()->filiere->nom }}</th>
                             <th>{{ $user->student->first()->niveau->nom }}</th>
-                            <td class="" style="">
-                                <div class="d-flex align-items-center">
-                                    <a href="javascript:void(0);" onclick="confirmDelete(event, '{{ $user->id }}')"
-                                        class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill delete-record">
-                                        <i class="ti ti-trash ti-md"></i>
-                                    </a>
+                            @if (Illuminate\Support\Facades\Auth::user()->role == 'superviseur')
+                                <td class="" style="">
+                                    <div class="d-flex align-items-center">
+                                        <a href="javascript:void(0);"
+                                            onclick="confirmDelete(event, '{{ $user->id }}')"
+                                            class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill delete-record">
+                                            <i class="ti ti-trash ti-md"></i>
+                                        </a>
 
-                                    <button wire:click="sendUser('{{ $user->id }}')"
-                                        class="btn btn-sm btn-icon edit-record btn-text-secondary rounded-pill waves-effect"
-                                        data-id="11" data-bs-toggle="offcanvas" data-bs-target="#offcanvasStart"
-                                        aria-controls="offcanvasStart">
-                                        <i class="ti ti-edit"></i>
-                                    </button>
-                            </td>
+                                        <button wire:click="sendUser('{{ $user->id }}')"
+                                            class="btn btn-sm btn-icon edit-record btn-text-secondary rounded-pill waves-effect"
+                                            data-id="11" data-bs-toggle="offcanvas"
+                                            data-bs-target="#offcanvasStart" aria-controls="offcanvasStart">
+                                            <i class="ti ti-edit"></i>
+                                        </button>
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
                 </tbody>
@@ -244,6 +253,18 @@
         </script>
         <!-- Offcanvas to add new user -->
 
+    </div>
+
+    <div
+        wire:loading.class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center">
+        <div wire:loading class="sk-chase sk-primary">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+        </div>
     </div>
 
 </div>

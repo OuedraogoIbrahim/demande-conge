@@ -13,6 +13,7 @@
 
 <!-- Page Scripts -->
 @section('page-script')
+    @vite(['resources/assets/vendor/libs/spinkit/spinkit.scss'])
 @endsection
 
 @section('content')

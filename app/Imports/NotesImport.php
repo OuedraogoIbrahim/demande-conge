@@ -24,12 +24,11 @@ class NotesImport implements ToCollection, WithHeadingRow
         foreach ($rows as $key => $row) {
             // Validation des données
             $validator = Validator::make($row->toArray(), [
-                'nom' => 'required|string',
-                'prenom' => 'required|string',
+                'email' => 'required|exists:users,email',
                 'note' => 'required|numeric|between:0,20',
                 'filiere' => 'required|string',
-                'niveau' => 'required|string',
-                'module' => 'required|string',
+                'niveau' => 'required|exists:niveaux,nom',
+                'module' => 'required|exists:modules,nom',
             ]);
 
             if ($validator->fails()) {
@@ -43,8 +42,9 @@ class NotesImport implements ToCollection, WithHeadingRow
 
             // Vérification de l'utilisateur
             $user = User::where([
-                'nom' => $row['nom'],
-                'prenom' => $row['prenom'],
+                'email' => $row['email'],
+                // 'nom' => $row['nom'],
+                // 'prenom' => $row['prenom'],
                 'establishment_id' => Auth::user()->establishment_id,
             ])->first();
 
@@ -52,14 +52,13 @@ class NotesImport implements ToCollection, WithHeadingRow
                 $failedImports++;
                 $failedRows[] = [
                     'ligne' => $key + 1,
-                    'erreurs' => ["L'utilisateur '{$row['nom']} {$row['prenom']}' n'existe pas."]
+                    'erreurs' => ["L'utilisateur avec l\'email '{$row['email']}' n'existe pas."]
                 ];
                 continue;
             }
 
-
             // Vérification de la filière
-            $filiere = Filiere::where([
+            $filiere = Filiere::query()->where([
                 'establishment_id' => Auth::user()->establishment_id,
                 'nom' => $row['filiere'],
             ])->first();
@@ -74,7 +73,7 @@ class NotesImport implements ToCollection, WithHeadingRow
             }
 
             // Vérification du niveau
-            $niveau = Niveau::where([
+            $niveau = Niveau::query()->where([
                 'filiere_id' => $filiere->id,
                 'nom' => $row['niveau'],
             ])->first();
@@ -99,13 +98,13 @@ class NotesImport implements ToCollection, WithHeadingRow
                 $failedImports++;
                 $failedRows[] = [
                     'ligne' => $key + 1,
-                    'erreurs' => ["L'étudiant '{$row['nom']} {$row['prenom']}' n'existe pas."]
+                    'erreurs' => ["L'étudiant avec l\'email '{$row['email']}' n'existe pas dans la filière {$filiere->nom} niveau {$niveau->nom}."]
                 ];
                 continue;
             }
 
             // Vérification du module
-            $module = Module::where([
+            $module = Module::query()->where([
                 'filiere_id' => $filiere->id,
                 'niveau_id' => $niveau->id,
                 'nom' => $row['module'],
@@ -120,8 +119,21 @@ class NotesImport implements ToCollection, WithHeadingRow
                 continue;
             }
 
+            //Verifier si le prof enseigne ce module
+            $professeur = Auth::user()->professor->first();
+            $enseigne = $professeur->modules()->where('module_id', $module->id)->exists();
+
+            if (!$enseigne) {
+                $failedImports++;
+                $failedRows[] = [
+                    'ligne' => $key + 1,
+                    'erreurs' => ["Vous n'êtes pas autorisé à attribuer une note pour le module '{$module->nom}', car vous ne l'enseignez pas."]
+                ];
+                continue;
+            }
+
             // Rechercher une note existante
-            $existingNote = Note::where('user_id', $user->id)
+            $existingNote = Note::query()->where('user_id', $user->id)
                 ->where('establishment_id', Auth::user()->establishment_id)
                 ->first();
 
