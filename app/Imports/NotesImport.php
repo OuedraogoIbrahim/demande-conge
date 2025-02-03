@@ -152,6 +152,7 @@ class NotesImport implements ToCollection, WithHeadingRow
                         $module->nom => ['note' => $row['note']]
                     ]),
                     'user_id' => $user->id,
+                    'niveau_id' => $niveau->id,
                     'establishment_id' => Auth::user()->establishment_id,
                 ]);
 

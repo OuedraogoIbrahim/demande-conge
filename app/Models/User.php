@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -50,28 +51,23 @@ class User extends Authenticatable
         ];
     }
 
-    public function establishment()
+    public function service(): BelongsTo
     {
-        return $this->belongsTo(establishment::class);
+        return $this->belongsTo(Service::class);
     }
 
-    public function professor(): HasMany
+    public function Employe(): HasOne
     {
-        return $this->hasMany(Professor::class);
+        return $this->hasOne(Employe::class);
     }
 
-    public function coordinateur(): HasMany
+    public function grh(): HasOne
     {
-        return $this->hasMany(Coordinateur::class);
+        return $this->hasOne(Grh::class);
     }
 
-    public function student(): HasMany
+    public function responsable(): HasOne
     {
-        return $this->hasMany(Student::class);
-    }
-
-    public function note(): HasOne
-    {
-        return $this->hasOne(Note::class);
+        return $this->hasOne(Responsable::class);
     }
 }
