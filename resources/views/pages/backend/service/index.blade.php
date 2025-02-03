@@ -1,6 +1,6 @@
 @extends('layouts/layoutMaster')
 
-@section('title', 'Liste employés - Pages')
+@section('title', 'Liste services - Pages')
 
 @section('vendor-style')
     @vite(['resources/assets/vendor/libs/select2/select2.scss', 'resources/assets/vendor/libs/animate-css/animate.scss', 'resources/assets/vendor/libs/sweetalert2/sweetalert2.scss'])
@@ -18,8 +18,8 @@
 
 @section('content')
 
-    @livewire('Employe.Index')
-    @livewire('Employe.Create');
-    @livewire('Employe.Update');
+    @livewire('service.index')
+    @livewire('service.create');
+    @livewire('service.update');
 
 @endsection

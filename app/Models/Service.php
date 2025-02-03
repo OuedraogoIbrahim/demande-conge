@@ -12,6 +12,10 @@ class Service extends Model
     /** @use HasFactory<\Database\Factories\ServiceFactory> */
     use HasFactory, HasUuids;
 
+    protected $fillable = [
+        'nom',
+    ];
+    
     public function users(): HasMany
     {
         return $this->hasMany(User::class);

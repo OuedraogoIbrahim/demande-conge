@@ -73,6 +73,7 @@ class Update extends Component
         $this->user->matricule = $this->matricule;
         $this->user->service_id = $this->service;
         $this->user->update();
+        
         redirect()->route('employes')->with('success', 'Employé(s) ' . $this->nom . ' modifié avec succès');
     }
 
