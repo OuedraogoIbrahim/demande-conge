@@ -1,41 +1,9 @@
 <div>
     <div class="card">
 
-        {{-- <div class="m-5">
-            @if (session()->has('message'))
-                <div class="alert alert-info">
-                    {{ session('message') }}
-                </div>
-            @endif
-
-            @if (session()->has('failedRows'))
-                <div class="alert alert-danger">
-                    <ul class="mb-0">
-                        @foreach (session('failedRows') as $failedRow)
-                            <li>Ligne {{ $failedRow['ligne'] }}: {{ implode(', ', $failedRow['erreurs']) }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
-            @if (session('error'))
-                <div class="alert alert-danger">{{ session('error') }}</div>
-            @endif
-        </div> --}}
-
         <div class="card-header border-bottom">
             <h5 class="card-title mb-0">Filtres</h5>
             <div class="d-flex justify-content-between align-items-center row pt-4 gap-4 gap-md-0">
-                {{-- <div class="col-md-4" wire:ignore>
-                    <label for="selectService" class="form-label">Service</label>
-                    <select wire:model='service' id="selectService" class="select2 form-select form-select-lg"
-                        data-allow-clear="false">
-                        <option value="">Selectionner le service</option>
-                        @foreach ($services as $s)
-                            <option value={{ $s->id }}>{{ $s->nom }}</option>
-                        @endforeach
-                    </select>
-                </div> --}}
 
                 <div class="col-md-4">
                     <label>Nom ou Prénom</label>
@@ -71,11 +39,7 @@
             <table class="datatables-users table">
                 <thead class="border-top">
                     <tr>
-                        {{-- <th>Matricule</th> --}}
                         <th>Nom</th>
-                        {{-- <th>Prénom</th>
-                        <th>Email</th>
-                        <th>Service</th> --}}
                         @if (Illuminate\Support\Facades\Auth::user()->role == 'grh' ||
                                 Illuminate\Support\Facades\Auth::user()->role == 'responsable')
                             <th>Actions</th>
@@ -90,11 +54,7 @@
                     @else
                         @foreach ($services as $service)
                             <tr>
-                                {{-- <th>{{ $user->matricule }}</th> --}}
                                 <th>{{ $service->nom }}</th>
-                                {{-- <th>{{ $user->prenom }}</th>
-                                <th>{{ $user->email }}</th> --}}
-                                {{-- <th>{{ $user->service->nom }}</th> --}}
                                 @if (Illuminate\Support\Facades\Auth::user()->role == 'grh' ||
                                         Illuminate\Support\Facades\Auth::user()->role == 'responsable')
                                     <td class="" style="">

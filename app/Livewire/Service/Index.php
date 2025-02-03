@@ -14,10 +14,8 @@ class Index extends Component
 
     use WithPagination;
 
-    // public $service;
-    // public $niveaux;
 
-    public $niveau;
+
     public $search;
 
     public function mount()
@@ -38,22 +36,14 @@ class Index extends Component
 
     public function render()
     {
-        // dd($this->search);
         $services = Service::query()
-            // Filtrer par filière et niveau en utilisant la relation avec Student
-            // ->whereHas('service', function ($query) {
-            //     $query->when($this->service, function ($query) {
-            //         $query->where('service_id', $this->service);
-            //     });
-            // })
             // Ajouter une condition pour filtrer par nom ou prénom
             ->when($this->search, function ($query) {
                 $query->where(function ($query) {
                     $query->where('nom', 'like', '%' . $this->search . '%');
-                        // ->orWhere('prenom', 'like', '%' . $this->search . '%');
                 });
             })
-            // ->where('id', '!=', Auth::user()->id)
+            ->orderBy('nom', 'desc')
             ->paginate(10);
 
         return view('livewire.service.index', compact('services'));

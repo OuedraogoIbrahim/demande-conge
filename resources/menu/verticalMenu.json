@@ -156,9 +156,9 @@
 
       {
           "icon": "menu-icon tf-icons ti ti-folder",
-          "url": "filieres",
-          "name": "Filières",
-          "slug": "filieres.index"
+          "url": "service",
+          "name": "Services",
+          "slug": "service.index"
       },
       {
           "icon": "menu-icon tf-icons ti ti-school",
