@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthentificationController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmployeController;
 use App\Http\Controllers\ParametreController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,8 @@ Route::middleware(['auth', 'change.password'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('profile', ProfileController::class)->name('profile');
     Route::get('parametres', ParametreController::class)->name('parametres');
+
+    Route::get('employes', EmployeController::class)->name('employes');
 
     // Route::resource('filieres', FiliereController::class)->except(['show', 'update', 'destroy', 'store']);
     // Route::resource('modules', ModuleController::class)->except(['show', 'update', 'destroy', 'store']);

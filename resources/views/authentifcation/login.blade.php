@@ -99,12 +99,12 @@
                         </button>
                     </form>
 
-                    <p class="text-center">
+                    {{-- <p class="text-center">
                         <span>Nouveau sur notre plateforme ?</span>
                         <a href="{{ route('register') }}">
                             <span>Créer un compte</span>
                         </a>
-                    </p>
+                    </p> --}}
 
                 </div>
             </div>

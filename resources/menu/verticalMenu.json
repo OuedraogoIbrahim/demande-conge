@@ -142,6 +142,13 @@
 
         {
             "icon": "menu-icon tf-icons ti ti-smart-home",
+            "url": "employes",
+            "name": "Employés",
+            "slug": "employes"
+        },
+
+        {
+            "icon": "menu-icon tf-icons ti ti-smart-home",
             "url": "dashboard",
             "name": "Tableau de bord",
             "slug": "dashboard"
